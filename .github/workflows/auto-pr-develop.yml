@@ -32,8 +32,4 @@ jobs:
             Este PR se ha generado automáticamente tras el push a **develop**.
             Actualiza los cambios de develop para mantener main al día.
           labels: automated, sync
-          reviewers:     
-            - tu-usuario
-          assignees:      
-            - tu-usuario
           remove-branch: true 
