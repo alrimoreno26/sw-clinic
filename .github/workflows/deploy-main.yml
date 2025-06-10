@@ -1,0 +1,37 @@
+name: Deploy Angular App to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Clona el repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Prepara Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'       # o la versión que uses
+
+      # 3. Instala dependencias
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Genera la build de producción
+      - name: Build production
+        run: npm run build -- --configuration production --base-href=/sw-clinic/
+        # - Reemplaza <tu-repo> por el nombre de tu repo (ej: mi-app)
+        # - Si tu proyecto se llama distinto en angular.json, usa su carpeta bajo dist
+
+      # 5. Despliega en GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/sw-clinic
