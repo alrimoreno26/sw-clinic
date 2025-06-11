@@ -1,4 +1,4 @@
-name: 👩‍🌺 Test Feature Branch and PR
+name: "[1] - Feature Branch and PR"
 
 on:
   push:

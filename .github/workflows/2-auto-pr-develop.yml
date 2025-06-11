@@ -1,4 +1,4 @@
-name: 🚀 Auto-PR develop → main
+name: "[2] Auto-PR develop → main"
 
 on:
   push:
