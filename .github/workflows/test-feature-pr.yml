@@ -1,0 +1,36 @@
+name: 👩‍🌺 Test Feature Branch and PR
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+
+jobs:
+  test-and-pr:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Create pull request to develop
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create --base develop --head ${{ github.ref_name }} \
+            --title "Merge ${{ github.ref_name }} into develop" \
+            --body "Automated PR created after successful tests."
