@@ -10,6 +10,40 @@ jobs:
     name: Crear PR contra main
     runs-on: ubuntu-latest
     steps:
+      - name: Comprobar código
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+
+      - name: Configurar Node.js (opcional)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Crear Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: sincronizar develop → main'
+          branch: sync/develop-to-main
+          base: main
+          title: '🔄 Sincronizar develop → main'
+          body: |
+            Este PR se ha generado automáticamente tras el push a **develop**.
+            Actualiza los cambios de develop para mantener main al día.
+          labels: automated, sync
+name: 🚀 Auto-PR develop → main
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  create-pr:
+    name: Crear PR contra main
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout código
         uses: actions/checkout@v3
         with:
